@@ -19,22 +19,26 @@ let toastTimer;
 const apiRequest = async (url, options = {}) => {
   const response = await fetch(url, options);
 
+  const responseText = await response.text();
   const contentType = response.headers.get("content-type");
 
-  if (!contentType || !contentType.includes("application/json")) {
-    const responseText = await response.text();
+  console.log("API Request:", url);
+  console.log("Status:", response.status);
+  console.log("Content-Type:", contentType);
+  console.log("Response:", responseText);
 
-    console.error("Expected JSON but received:", responseText);
+  let data;
 
+  try {
+    data = responseText ? JSON.parse(responseText) : null;
+  } catch (error) {
     throw new Error(
-      `Expected JSON but received ${contentType || "unknown response"} from ${url}`,
+      `Server returned a non-JSON response. Status: ${response.status}. Response: ${responseText.slice(0, 300)}`,
     );
   }
 
-  const data = await response.json();
-
   if (!response.ok) {
-    throw new Error(data.message || "Something went wrong");
+    throw new Error(data?.message || "Something went wrong");
   }
 
   return data;
