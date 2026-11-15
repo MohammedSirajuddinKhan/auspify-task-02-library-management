@@ -79,6 +79,7 @@ export const returnBook = async (req, res) => {
   try {
     const { transactionId } = req.params;
 
+    // Validate MongoDB ObjectId
     if (!mongoose.isValidObjectId(transactionId)) {
       return res.status(400).json({
         success: false,
@@ -117,10 +118,30 @@ export const returnBook = async (req, res) => {
       $inc: { availableQuantity: 1 },
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Book returned successfully",
       data: transaction,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// 3. Get all transaction records
+export const getAllTransactions = async (req, res) => {
+  try {
+    const transactions = await Transaction.find()
+      .populate("book", "title author isbn")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: transactions.length,
+      data: transactions,
     });
   } catch (error) {
     res.status(500).json({
