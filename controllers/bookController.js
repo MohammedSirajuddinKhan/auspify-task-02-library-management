@@ -1,6 +1,5 @@
 import Book from "../models/Book.js";
 
-// 1. Add a new book
 export const createBook = async (req, res) => {
   try {
     const { title, author, isbn, category, quantity } = req.body;
@@ -30,7 +29,6 @@ export const createBook = async (req, res) => {
   }
 };
 
-// 2. Get all books and search books
 export const getAllBooks = async (req, res) => {
   try {
     const { search } = req.query;
@@ -63,7 +61,6 @@ export const getAllBooks = async (req, res) => {
   }
 };
 
-// 3. Get a single book by ID
 export const getBookById = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
@@ -87,7 +84,6 @@ export const getBookById = async (req, res) => {
   }
 };
 
-// 4. Update book details
 export const updateBook = async (req, res) => {
   try {
     const allowedFields = ["title", "author", "isbn", "category", "quantity"];
@@ -109,7 +105,6 @@ export const updateBook = async (req, res) => {
       });
     }
 
-    // Keep issued copies accounted for when quantity changes
     if (updates.quantity !== undefined) {
       const issuedCopies = book.quantity - book.availableQuantity;
 
@@ -145,7 +140,6 @@ export const updateBook = async (req, res) => {
   }
 };
 
-// 5. Delete a book
 export const deleteBook = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
