@@ -1,8 +1,14 @@
 import express from "express";
 
-import { issueBook, returnBook } from "../controllers/transactionController.js";
+import {
+  issueBook,
+  returnBook,
+  getAllTransactions,
+} from "../controllers/transactionController.js";
 
 const router = express.Router();
+
+router.get("/", getAllTransactions);
 
 router.post("/issue", issueBook);
 
