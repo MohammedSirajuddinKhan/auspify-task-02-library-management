@@ -6,7 +6,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
-
 import bookRoutes from "./routes/bookRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
 
@@ -21,8 +20,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-app.use(express.static(path.join(__dirname, "frontend")));
-
+// Health check
 app.get("/api/v1/health", (req, res) => {
   res.status(200).json({
     success: true,
@@ -30,15 +28,20 @@ app.get("/api/v1/health", (req, res) => {
   });
 });
 
+// API routes
 app.use("/api/v1/books", bookRoutes);
 app.use("/api/v1/transactions", transactionRoutes);
 
+// API 404 handler
 app.use("/api", (req, res) => {
   res.status(404).json({
     success: false,
     message: "API endpoint not found",
   });
 });
+
+// Serve frontend
+app.use(express.static(path.join(__dirname, "frontend")));
 
 const startServer = async () => {
   try {
