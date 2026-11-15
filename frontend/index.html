@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <div>
+        <h1>Library Management System</h1>
+        <p>Manage books, issue records and returns</p>
+      </div>
+
+      <span class="status">System Active</span>
+    </header>
+
+    <main class="container">
+      <!-- Dashboard Statistics -->
+      <section class="stats">
+        <div class="stat-card">
+          <h3>Total Books</h3>
+          <p id="totalBooks">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Available Copies</h3>
+          <p id="availableBooks">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Issued Copies</h3>
+          <p id="issuedBooks">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Total Transactions</h3>
+          <p id="totalTransactions">0</p>
+        </div>
+      </section>
+
+      <!-- Book Management -->
+      <section class="section">
+        <div class="section-heading">
+          <h2>Book Management</h2>
+          <button id="addBookBtn" class="primary-btn">+ Add Book</button>
+        </div>
+
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by title, author, ISBN or category..."
+          />
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Category</th>
+                <th>Total</th>
+                <th>Available</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody id="booksTableBody">
+              <tr>
+                <td colspan="7">Loading books...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Issue and Return -->
+      <section class="section">
+        <h2>Issue & Return Books</h2>
+
+        <div class="transaction-grid">
+          <div class="form-card">
+            <h3>Issue a Book</h3>
+
+            <form id="issueBookForm">
+              <label for="issueBookId">Select Book</label>
+              <select id="issueBookId" required>
+                <option value="">Select a book</option>
+              </select>
+
+              <label for="borrowerName">Borrower Name</label>
+              <input
+                type="text"
+                id="borrowerName"
+                required
+                placeholder="Enter borrower name"
+              />
+
+              <label for="borrowerEmail">Borrower Email</label>
+              <input
+                type="email"
+                id="borrowerEmail"
+                required
+                placeholder="Enter borrower email"
+              />
+
+              <button type="submit" class="primary-btn">Issue Book</button>
+            </form>
+          </div>
+
+          <div class="form-card">
+            <h3>Issued Books</h3>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Book</th>
+                    <th>Borrower</th>
+                    <th>Issue Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody id="transactionsTableBody">
+                  <tr>
+                    <td colspan="4">Loading transactions...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reports -->
+      <section class="section">
+        <div class="section-heading">
+          <h2>Reports Generation</h2>
+
+          <button id="exportReportBtn" class="primary-btn">Export CSV</button>
+        </div>
+
+        <p>
+          Generate a report containing book inventory and transaction records.
+        </p>
+
+        <div id="reportSummary"></div>
+      </section>
+    </main>
+
+    <!-- Add / Edit Book Modal -->
+    <div class="modal" id="bookModal">
+      <div class="modal-content">
+        <div class="section-heading">
+          <h2 id="modalTitle">Add Book</h2>
+          <button id="closeModalBtn" class="close-btn">&times;</button>
+        </div>
+
+        <form id="bookForm">
+          <input type="hidden" id="bookId" />
+
+          <label for="title">Book Title</label>
+          <input type="text" id="title" required />
+
+          <label for="author">Author</label>
+          <input type="text" id="author" required />
+
+          <label for="isbn">ISBN</label>
+          <input type="text" id="isbn" required />
+
+          <label for="category">Category</label>
+          <input type="text" id="category" required />
+
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" min="0" required />
+
+          <button type="submit" class="primary-btn">Save Book</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
